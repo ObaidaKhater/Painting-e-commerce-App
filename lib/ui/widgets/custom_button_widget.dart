@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ButtonWidget extends StatelessWidget {
+
+class CustomButtonWidget extends StatelessWidget {
+  Function onTap;
+  String label;
+
+  CustomButtonWidget({@required this.onTap, @required this.label});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,8 +21,11 @@ class ButtonWidget extends StatelessWidget {
             backgroundColor:
             MaterialStateProperty.all<Color>(Color(0xFFFFDFD8)),
           ),
-          onPressed: () {},
-          child: Text('SHOP NOW',style: Theme.of(context).textTheme.subtitle2,)),
+          onPressed: this.onTap,
+          child: Text(
+            this.label,
+            style: Theme.of(context).textTheme.subtitle2,
+          )),
     );
   }
 }

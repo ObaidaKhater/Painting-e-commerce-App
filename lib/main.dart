@@ -1,32 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:gsg_project_1/helpers/db_helper.dart';
+import 'package:gsg_project_1/helpers/route_helper.dart';
+import 'package:gsg_project_1/providers/card_provider.dart';
+import 'package:gsg_project_1/providers/favorite_provider.dart';
+import 'package:gsg_project_1/providers/home_provider.dart';
+import 'package:gsg_project_1/providers/product_provider.dart';
+import 'package:gsg_project_1/ui/favorite_page/favorite_page.dart';
+
 import 'package:gsg_project_1/ui/main_page/main_page.dart';
-import 'package:gsg_project_1/ui/painting_page/painting_page.dart';
+import 'package:gsg_project_1/ui/product_page/product_page.dart';
+import 'package:provider/provider.dart';
 
-import 'model/painting_model.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: PaintingPage(painting: Painting(
-        title: 'Inner calm',
-        description:
-        'Inner calm - 80*80 Cm , 1/10 , Limited Print on Epson Fine art paper',
-        price: 2100,
-        painterId: '101',
-        categoriesPainting: CategoriesPainting.Abstract,
-        imagesPath: [
-          'assets/images/painting11.png',
-          'assets/images/painting12.png',
-          'assets/images/painting11.png',
-        ],
-      ),),
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DbHelper.dbHelper.initDatabase();
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<HomeProvider>(create: (context) => HomeProvider()),
+      ChangeNotifierProvider<ProductProvider>(
+          create: (context) => ProductProvider()),
+      ChangeNotifierProvider<FavoriteProvider>(
+          create: (context) => FavoriteProvider()),
+      ChangeNotifierProvider<CardProvider>(create: (context) => CardProvider()),
+    ],
+    child: MaterialApp(
+      navigatorKey: RouteHelper.routeHelper.navKay,
+      routes: {
+        ProductPage.routeName: (context) => ProductPage(),
+        FavoritePage.routeName: (context) => FavoritePage(),
+      },
+      home: MainPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        backgroundColor: Colors.white,
+        focusColor: Color(0xFF47292A),
+        unselectedWidgetColor: Color(0xFFBCBCBD),
         textTheme: TextTheme(
           headline1: TextStyle(
             color: Color(0xFF2E2842),
@@ -58,28 +66,28 @@ class MyApp extends StatelessWidget {
             fontFamily: "roboto_black",
             fontSize: 20,
           ),
-          bodyText1:  TextStyle(
+          bodyText1: TextStyle(
             color: Color(0xFF47292A),
             fontFamily: "roboto_black",
             fontSize: 25,
           ),
-          bodyText2:  TextStyle(
+          bodyText2: TextStyle(
             color: Color(0xFF262629),
             fontFamily: "roboto_medium",
             fontSize: 20,
           ),
-          subtitle1:  TextStyle(
+          subtitle1: TextStyle(
             color: Color(0xFF9D9DA8),
             fontFamily: "roboto_regular",
             fontSize: 17,
           ),
-          subtitle2:  TextStyle(
+          subtitle2: TextStyle(
             color: Color(0xFF47292A),
             fontFamily: "roboto_medium",
             fontSize: 18,
           ),
         ),
       ),
-    );
-  }
+    ),
+  ));
 }

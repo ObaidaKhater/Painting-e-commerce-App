@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gsg_project_1/ui/card_page/card_page.dart';
+import 'package:gsg_project_1/ui/favorite_page/favorite_page.dart';
 import 'package:gsg_project_1/ui/home_page/home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,11 +22,9 @@ class _MainPageState extends State<MainPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         elevation: 0,
-        fixedColor: Colors.blue,
         onTap: (newIndex) {
           _currentIndex = newIndex;
           _tabController.animateTo(newIndex);
@@ -44,7 +44,7 @@ class _MainPageState extends State<MainPage>
           BottomNavigationBarItem(
             title: Text(''),
             icon: Image.asset(
-              'assets/icons/icon_search.png',
+              'assets/icons/icon_favorite.png',
               width: 25,
               height: 25,
               color:
@@ -77,9 +77,9 @@ class _MainPageState extends State<MainPage>
         controller: _tabController,
         children: [
           HomePage(),
-          Text('2'),
-          Text('3'),
-          Text('4'),
+          FavoritePage(),
+          CardPage(),
+          Center(child: Text('Profile')),
         ],
       ),
     );
